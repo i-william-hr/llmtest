@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>llmtest</title>
+<link rel="stylesheet" href="static/style.css">
+<meta name="llmtest-prefix" content="{{ prefix }}">
+</head>
+<body>
+<div id="app">
+
+  <!-- ======================= sidebar ======================= -->
+  <aside id="sidebar">
+    <div class="side-head">
+      <span class="logo">🪛 llmtest</span>
+      <button id="btn-new" class="btn small" title="new chat">+ new</button>
+    </div>
+    <div id="chat-list"></div>
+    <div class="side-foot">
+      <a href="https://sso.inbox.li/sso/logout">sign out</a>
+      <span class="dim" id="model-count"></span>
+    </div>
+  </aside>
+
+  <!-- ======================== main ========================= -->
+  <main id="main">
+    <header id="toolbar">
+      <div class="provider-tabs" id="provider-tabs"></div>
+      <button id="btn-models" class="btn">Models <span id="picked-count" class="badge">0</span> ▾</button>
+      <button id="btn-settings" class="btn" title="system prompt & params">⚙</button>
+      <span id="settings-summary" class="dim"></span>
+      <span class="spacer"></span>
+      <button id="btn-stop" class="btn danger hidden">■ stop</button>
+      <button id="btn-run" class="btn primary">▶ Run</button>
+    </header>
+
+    <div id="settings-panel" class="hidden">
+      <label>System prompt
+        <textarea id="system" rows="3" placeholder="(optional)"></textarea>
+      </label>
+      <div class="settings-params">
+        <label>Temperature
+          <input type="number" id="temperature" min="0" max="2" step="0.1" placeholder="default">
+        </label>
+        <label>Max tokens
+          <input type="number" id="max_tokens" min="1" step="1" placeholder="default">
+        </label>
+      </div>
+    </div>
+
+    <!-- model picker dropdown -->
+    <div id="model-picker" class="hidden">
+      <div class="mp-head">
+        <input id="mp-search" placeholder="filter models…">
+        <div class="mp-actions">
+          <button class="btn small" id="mp-refresh">⟳ refresh</button>
+          <button class="btn small" id="mp-none">none</button>
+        </div>
+      </div>
+      <div id="mp-list"></div>
+    </div>
+
+    <!-- conversation -->
+    <section id="chat"></section>
+
+    <!-- composer -->
+    <footer id="composer">
+      <textarea id="prompt" rows="3"
+        placeholder="Enter a prompt — sent to every selected model at once.  Ctrl+Enter to run"></textarea>
+      <div id="picked-chips"></div>
+    </footer>
+  </main>
+</div>
+
+<template id="tpl-turn">
+  <div class="turn">
+    <div class="turn-user"></div>
+    <div class="panes"></div>
+  </div>
+</template>
+
+<template id="tpl-pane">
+  <div class="pane">
+    <div class="pane-head">
+      <span class="pane-model"></span>
+      <span class="pane-meta dim"></span>
+      <span class="spacer"></span>
+      <button class="btn tiny pane-retry hidden" title="retry this model">↻</button>
+      <button class="btn tiny pane-copy" title="copy">⧉</button>
+    </div>
+    <div class="pane-body"><div class="md"></div><span class="cursor hidden">▋</span></div>
+    <details class="pane-reasoning hidden">
+      <summary>reasoning</summary><pre></pre>
+    </details>
+  </div>
+</template>
+
+<script src="static/marked.minish.js"></script>
+<script src="static/app.js"></script>
+</body>
+</html>
